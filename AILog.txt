@@ -1,1 +1,41 @@
-temp
+Date: 9/27/2026
+Author: Joshua Pearson
+GAI Used: Claude Sonnet 5
+
+Using C write a program that can take a ask for an input line  and read through text to look for an ipv4 address and possibly a port only numbers period or colons are ever valuable characters all alphabet characters are trash. You can not use 
+Any string-to-number conversion function: atoi, atol, atoll, strtol, strtoul, strtod, stoi, stol, stoul, sscanf, scanf with numeric conversions.
+Any address-parsing library function: inet_aton, inet_pton, inet_addr, or equivalents.
+Any regular-expression facility (std::regex, POSIX regex.h, or similar) — the parsing and validation logic must be your own character-by-character code, not a pattern matched by a library.
+Standard character-classification functions (isdigit, etc.) are fine to use.
+These requirements for this program are as follows:
+Exactly one valid address may be extracted per input line; everything else in the line is either garbage (skipped) or part of a candidate token that fails validation.
+Reject anything that does not exactly match the grammar above — wrong octet count, empty octet, out-of-range octet or port, a disallowed leading zero, a second colon, a colon not immediately after the fourth octet, or a stray period/colon directly adjacent to an otherwise-valid address.
+On success, print: Extracted IPv4 address: A.B.C.D (decimal value: N, port: P) where N is the 32-bit decimal value and P is the port number or the literal text none.
+there must be an input loop to continuously prompt users for the next line unless the user types end which kills the loop. This is what the function prototype should look like for C:
+// Returns 1 if a valid address was found, 0 otherwise.
+// On success: *outAddress holds the 32-bit value, and
+// *outPort holds the port number, or -1 if no port was present.
+// On failure: *outAddress is set to 0 and *outPort is set to -1.
+int extractIPv4(const char* str, unsigned long* outAddress, int* outPort);
+also create a makefile that when make is run will start the program
+This is an example of what the program should look like when run
+Enter a string (or 'END' to quit): connecting to 192.168.1.1 now
+Extracted IPv4 address: 192.168.1.1 (decimal value: 3232235777, port: none)
+Enter a string (or 'END' to quit): server=10.0.0.255:8080end
+Extracted IPv4 address: 10.0.0.255 (decimal value: 167772415, port: 8080)
+Enter a string (or 'END' to quit): 192a168.1.1.1
+Extracted IPv4 address: 168.1.1.1 (decimal value: 2818638081, port: none)
+Enter a string (or 'END' to quit): 192.168.1.1.
+Invalid input: no valid IPv4 address found
+Enter a string (or 'END' to quit): Connection from 192.168.1.1 refused
+Extracted IPv4 address: 192.168.1.1 (decimal value: 3232235777, port: none)
+Enter a string (or 'END' to quit): 192.168.01.1
+Invalid input: no valid IPv4 address found
+Enter a string (or 'END' to quit): 1.2.3.4:99999
+Invalid input: no valid IPv4 address found
+Enter a string (or 'END' to quit): 12.34.56
+Invalid input: no valid IPv4 address found
+Enter a string (or 'END' to quit): no number here
+Invalid input: no valid IPv4 address found
+Enter a string (or 'END' to quit): END
+Program terminated.
